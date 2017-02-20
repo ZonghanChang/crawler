@@ -45,9 +45,9 @@ cat $urlsFile | sort | uniq | cut -f 2 -d ',' | egrep 'N_OK' | wc -l | awk '{pri
 echo "\nStatus Codes:\n================" >> $outputFile
 cat $fetchFile | cut -f 2 -d ',' | egrep -c '200' | awk '{print "200 OK: "$1}' >> $outputFile
 cat $fetchFile | cut -f 2 -d ',' | egrep -c '301' | awk '{print "301 Moved Permanently: "$1}' >> $outputFile
-cat $fetchFile | cut -f 2 -d ',' | egrep -c '401' | awk '{print "401 Unauthorized: "$1}' >> $outputFile
-cat $fetchFile | cut -f 2 -d ',' | egrep -c '403' | awk '{print "403 Forbidden: "$1}' >> $outputFile
+cat $fetchFile | cut -f 2 -d ',' | egrep -c '302' | awk '{print "302 Unauthorized: "$1}' >> $outputFile
 cat $fetchFile | cut -f 2 -d ',' | egrep -c '404' | awk '{print "404 Not Found: "$1}' >> $outputFile
+cat $fetchFile | cut -f 2 -d ',' | egrep -c '502' | awk '{print "502 Bad gateway: "$1}' >> $outputFile
 
 echo "\nFile Sizes:\n================" >> $outputFile
 cat $visitFile | cut -f 2 -d ',' | sed -e 's#\(^\"\)\(.*\)\(\"$\)#\2#g' | awk '$1 < 1024 && $1 >= 0 {print $1;}' | wc -l | awk '{print "< 1KB: "$1}' >> $outputFile 
@@ -62,6 +62,7 @@ cat $visitFile | cut -f 4 -d ',' | egrep ".*image/gif.*" | wc -l | awk '{print "
 cat $visitFile | cut -f 4 -d ',' | egrep ".*image/jpeg.*" | wc -l | awk '{print "image/jpeg: "$1}' >> $outputFile
 cat $visitFile | cut -f 4 -d ',' | egrep ".*image/png.*" | wc -l | awk '{print "image/png: "$1}' >> $outputFile
 cat $visitFile | cut -f 4 -d ',' | egrep ".*application/pdf.*" | wc -l | awk '{print "application/pdf: "$1}' >> $outputFile
+cat $visitFile | cut -f 4 -d ',' | egrep ".*image/vnd.microsoft.icon.*" | wc -l | awk '{print "application/pdf: "$1}' >> $outputFile
 
 
 

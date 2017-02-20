@@ -5,37 +5,36 @@ News site crawled: NBC_News.com
 Fetch Statistics
 ================
 # fetches attempted: 19996
-# fetches succeeded: 19147
-# fetches aborted: 366
-# fetches failed: 483
+# fetches succeeded: 19198
+# fetches aborted: 300
+# fetches failed: 498
 
 Outgoing Urls:
 ================
-Total URLs extracted: 786576
-# unique URLs extracted: 199677
-# unique URLs within News Site: 41264
-# unique URLs outside News Site: 158413
+Total URLs extracted: 802977
+# unique URLs extracted: 201321
+# unique URLs within News Site: 41612
+# unique URLs outside News Site: 159709
 
 Status Codes:
 ================
-200 OK: 19147
-301 Moved Permanently: 321
-401 Unauthorized: 0
-403 Forbidden: 0
-404 Not Found: 478
+200 OK: 19198
+301 Moved Permanently: 264
+302 Unauthorized: 36
+404 Not Found: 494
+502 Bad gateway: 4
 
 File Sizes:
 ================
-< 1KB: 1
+< 1KB: 4
 1KB ~ <10KB: 2
-10KB ~ <100KB: 10789
-100KB ~ <1MB: 8300
+10KB ~ <100KB: 10626
+100KB ~ <1MB: 8517
 >= 1MB: 41
 
 Content Types:
 ================
-text/html: 19133
-image/gif: 0
-image/jpeg: 0
-image/png: 0
-application/pdf: 0
+text/html: 19185
+image/gif: 3
+image/png: 1
+application/pdf: 1

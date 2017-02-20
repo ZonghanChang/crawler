@@ -1,0 +1,40 @@
+Name: zonghanChang
+USC ID: 3769127798
+News site crawled: NBC_News.com
+
+Fetch Statistics
+================
+# fetches attempted: 19996
+# fetches succeeded: 19198
+# fetches aborted: 300
+# fetches failed: 498
+
+Outgoing Urls:
+================
+Total URLs extracted: 802977
+# unique URLs extracted: 201321
+# unique URLs within News Site: 41612
+# unique URLs outside News Site: 159709
+
+Status Codes:
+================
+200 OK: 19198
+301 Moved Permanently: 264
+302 Unauthorized: 36
+404 Not Found: 494
+502 Bad gateway: 4
+
+File Sizes:
+================
+< 1KB: 4
+1KB ~ <10KB: 2
+10KB ~ <100KB: 10626
+100KB ~ <1MB: 8517
+>= 1MB: 41
+
+Content Types:
+================
+text/html: 19185
+image/gif: 3
+image/png: 1
+application/pdf: 1

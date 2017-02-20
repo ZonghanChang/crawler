@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.parser.BinaryParseData;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import java.util.Set;
@@ -12,7 +13,7 @@ public class MyCrawler extends WebCrawler {
     private final String visitFileName = "visit_NBC_News.csv";
     private final String urlsFileName = "urls_NBC_News.csv";
 
-    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mp3|mp3|zip|gz))$");
+    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|xml|mp3|mp3|zip|gz))$");
     private final static Pattern filters = Pattern.compile(".*(\\.(html|doc|pdf|jpg|png|gif|jpeg))$");
     private final static Pattern directoryFilters = Pattern.compile("http?:\\/\\/www\\.nbcnews[.]com\\/?.*(?=\\s|$)");
     private FileWriter fetchWriter;
@@ -63,7 +64,7 @@ public class MyCrawler extends WebCrawler {
     @Override
     public void visit(Page page) {
         Set<WebURL> links = page.getParseData().getOutgoingUrls();
-        if(page.getParseData() instanceof HtmlParseData) {
+        if(page.getParseData() instanceof HtmlParseData || page.getParseData() instanceof BinaryParseData) {
             try {
                 visitWriter = new FileWriter(visitFileName, true);
                 visitWriter.append(page.getWebURL().getURL()).append(",").append(String.valueOf(page.getContentData().length))
