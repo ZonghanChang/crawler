@@ -1,6 +1,3 @@
-/**
- * Created by zonghanchang on 2/18/17.
- */
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
@@ -11,7 +8,7 @@ import edu.uci.ics.crawler4j.crawler.CrawlController;
 public class Controller {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "/data/crawl";
-        int numberOfCrawlers = 10;
+        int numberOfCrawlers = 15;
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
         /*
@@ -19,8 +16,8 @@ public class Controller {
          */
         config.setIncludeBinaryContentInCrawling(true);
         config.setMaxDepthOfCrawling(16);
-        config.setMaxPagesToFetch(500);
-        // config.setPolitenessDelay(200);
+        config.setMaxPagesToFetch(20000);
+        config.setPolitenessDelay(200);
 
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

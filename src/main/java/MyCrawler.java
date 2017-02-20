@@ -1,6 +1,3 @@
-/**
- * Created by zonghanchang on 2/18/17.
- */
 import java.io.IOException;
 import java.util.regex.Pattern;
 import edu.uci.ics.crawler4j.crawler.Page;
@@ -16,12 +13,13 @@ public class MyCrawler extends WebCrawler {
     private final String urlsFileName = "urls_NBC_News.csv";
 
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mp3|mp3|zip|gz))$");
+    private final static Pattern filters = Pattern.compile(".*(\\.(html|doc|pdf|jpg|png|gif|jpeg))$");
+    private final static Pattern directoryFilters = Pattern.compile("http?:\\/\\/www\\.nbcnews[.]com\\/?.*(?=\\s|$)");
     private FileWriter fetchWriter;
     private FileWriter visitWriter;
     private FileWriter urlsWriter;
 
-    private HashSet<String> encountered = new HashSet<String>();
-
+    // private HashSet<String> encountered = new HashSet<String>();
     /**
      * This method receives two parameters. The first parameter is the page
      * in which we have discovered this new url and the second parameter is
@@ -39,29 +37,22 @@ public class MyCrawler extends WebCrawler {
 
         try {
             urlsWriter = new FileWriter(urlsFileName, true);
-            if(href.startsWith("http://www.nbcnews.com/")){
+            if(directoryFilters.matcher(href).matches()){
                 urlsWriter.append(href).append(",").append("OK").append("\n");
-
-                if(!encountered.contains(href)){
-                    encountered.add(href);
-                }
             }
             else{
                 urlsWriter.append(href).append(",").append("N_OK").append("\n");
-
-                if(!encountered.contains(href)){
-                    encountered.add(href);
-
-                }
             }
             urlsWriter.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return !FILTERS.matcher(href).matches()
-                && href.startsWith("http://www.nbcnews.com/");
+        //return !FILTERS.matcher(href).matches() && href.startsWith("http://www.nbcnews.com/");
+
+        return (filters.matcher(href).matches()
+                && href.startsWith("http://www.nbcnews.com/")) || directoryFilters.matcher(href).matches();
+
     }
 
     /**
@@ -70,41 +61,30 @@ public class MyCrawler extends WebCrawler {
      */
     @Override
     public void visit(Page page) {
-        String url = page.getWebURL().getURL();
-
-        System.out.println("URL: " + url);
-        if (page.getParseData() instanceof HtmlParseData) {
-            HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-            String text = htmlParseData.getText();
-            String html = htmlParseData.getHtml();
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
-
-            try {
-                fetchWriter = new FileWriter(fetchFileName, true);
-                fetchWriter.append(page.getWebURL().getURL() + "," + page.getStatusCode() + "\n");
-                fetchWriter.close();
-
-                visitWriter = new FileWriter(visitFileName, true);
-                visitWriter.append(page.getWebURL().getURL() + "," + page.getContentData().length + "," +
-                                   links.size() + "," + page.getContentType() + "\n");
-                visitWriter.close();
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-//            System.out.println("status code: " + page.getStatusCode());
-//            System.out.println("content type: " + page.getContentType());
-//            System.out.println("Text length: " + text.length());
-//            System.out.println("Html length: " + html.length());
-//            System.out.println("Number of outgoing links: " + links.size());
+        Set<WebURL> links = page.getParseData().getOutgoingUrls();
+        try {
+            visitWriter = new FileWriter(visitFileName, true);
+            visitWriter.append(page.getWebURL().getURL()).append(",").append(String.valueOf(page.getContentData().length))
+                    .append(",").append(String.valueOf(links.size())).append(",").append(page.getContentType()).append("\n");
+            visitWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
-
+        try {
+            fetchWriter = new FileWriter(fetchFileName, true);
+            String url = webUrl.getURL();
+            if(url.contains(",")) {
+                url = url.replace(',', '-');
+            }
+            fetchWriter.append(url).append(",").append(String.valueOf(statusCode)).append("\n");
+            fetchWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
