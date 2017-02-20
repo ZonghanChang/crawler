@@ -8,7 +8,7 @@ import edu.uci.ics.crawler4j.crawler.CrawlController;
 public class Controller {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "/data/crawl";
-        int numberOfCrawlers = 15;
+        int numberOfCrawlers = 10;
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
         /*
@@ -17,7 +17,7 @@ public class Controller {
         config.setIncludeBinaryContentInCrawling(true);
         config.setMaxDepthOfCrawling(16);
         config.setMaxPagesToFetch(20000);
-        config.setPolitenessDelay(200);
+        config.setPolitenessDelay(100);
 
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

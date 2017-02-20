@@ -6,7 +6,7 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import java.util.Set;
 import java.io.FileWriter;
-import java.util.HashSet;
+
 public class MyCrawler extends WebCrawler {
     private final String fetchFileName = "fetch_NBC_News.csv";
     private final String visitFileName = "visit_NBC_News.csv";
@@ -51,7 +51,8 @@ public class MyCrawler extends WebCrawler {
         //return !FILTERS.matcher(href).matches() && href.startsWith("http://www.nbcnews.com/");
 
         return (filters.matcher(href).matches()
-                && href.startsWith("http://www.nbcnews.com/")) || directoryFilters.matcher(href).matches();
+                && href.startsWith("http://www.nbcnews.com/"))
+                || (directoryFilters.matcher(href).matches() && !FILTERS.matcher(href).matches());
 
     }
 
@@ -62,14 +63,17 @@ public class MyCrawler extends WebCrawler {
     @Override
     public void visit(Page page) {
         Set<WebURL> links = page.getParseData().getOutgoingUrls();
-        try {
-            visitWriter = new FileWriter(visitFileName, true);
-            visitWriter.append(page.getWebURL().getURL()).append(",").append(String.valueOf(page.getContentData().length))
-                    .append(",").append(String.valueOf(links.size())).append(",").append(page.getContentType()).append("\n");
-            visitWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(page.getParseData() instanceof HtmlParseData) {
+            try {
+                visitWriter = new FileWriter(visitFileName, true);
+                visitWriter.append(page.getWebURL().getURL()).append(",").append(String.valueOf(page.getContentData().length))
+                        .append(",").append(String.valueOf(links.size())).append(",").append(page.getContentType()).append("\n");
+                visitWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
     }
 
